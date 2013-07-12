@@ -1,0 +1,8 @@
+@import "common.css";
+@import url("http://netdna.bootstrapcdn.com/bootswatch/2.3.2/superhero/bootstrap.min.css");
+body{
+    background-image: url("/images/background17.jpg");
+}
+#clock {
+   /* margin-bottom: 120px;*/
+}

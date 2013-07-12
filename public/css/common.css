@@ -1,0 +1,55 @@
+.box {
+  height:150px;
+  display:inline-block;
+}
+html {
+    min-height: 100%;
+}
+body {
+    margin:0;
+    padding:0;
+    background-size:100% 100%;
+    min-height:100%;
+}
+.forecast-day {
+    display: inline-block;
+    padding: 5px;
+    text-align: center;
+}
+.current-icon {
+    float: left;
+    margin-right: 10px;
+}
+.date {
+    text-transform:capitalize;
+}
+.email strong {
+    text-transform:capitalize;
+}
+.email-from {
+    font-style: italic
+}
+.email-subject {
+    font-weight:bold;
+}
+.email li {
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+#weather {
+    margin-top:20px;
+    margin-right:10px
+}
+#clock {
+    margin: 60px 10px;
+    font-weight:normal;
+}
+#clock h1 {
+    font-weight:normal;
+    font-size: 70px;
+}
+.row {
+    overflow:hidden;
+}
+

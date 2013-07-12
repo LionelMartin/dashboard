@@ -1,0 +1,6 @@
+@import "common.css";
+@import url("http://netdna.bootstrapcdn.com/bootswatch/2.3.2/cyborg/bootstrap.min.css");
+body{
+    background-image: url("/images/background6.jpg");
+    color: white;
+}

@@ -1,0 +1,9 @@
+{
+  name: "dashboard",
+  version: "0.0.1",
+  devDependencies:{
+    "imap": "0.7.12",
+    "ical": "0.1.0",
+    "node-static": ">=0.7.0"
+  }
+}

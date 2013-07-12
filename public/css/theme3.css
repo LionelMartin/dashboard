@@ -1,0 +1,5 @@
+@import "common.css";
+@import url("http://netdna.bootstrapcdn.com/bootswatch/2.3.2/amelia/bootstrap.min.css");
+body{
+    background-image: url("/images/background19.jpg");
+}

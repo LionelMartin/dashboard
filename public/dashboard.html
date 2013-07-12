@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Weather</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- 1. Shim missing platform features -->
+        <script src="js/underscore-min.js""></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/backbone-min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="js/moment.lang/fr.js"></script>
+        <script src="js/handlebars.js"></script>
+        <script src="js/dashboard.js"></script>
+        <script src="js/dashboard.config.js"></script>
+        <!-- 2. Load a component -->
+        <link id="theme" rel="stylesheet" href="css/theme2.css">
+        <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    <body>
+    <script id="clock-template" type="text/template">
+        <h1><strong>{{timeStr.hour}}</strong>:{{timeStr.minute}}</h1>
+        <h2>{{dateStr}}</h2>
+    </script>
+    <script id="weather-template" type="text/template">
+        <img class="current-icon" src="{{condition.icon_url}}">
+        <h3>{{condition.weather}}   {{condition.temp_c}}&deg;C</h4>
+        <div class="forecast">
+          {{#each forecast.forecastday}}
+            <div class="forecast-day">
+              <div class="date">{{date.weekday_short}}</div>
+              <img class="forecast-icon" src="{{icon_url}}" width="36px" height="36px">
+              <div class="high-low">
+                {{low.celsius}}/{{high.celsius}} &deg;C
+              </div>
+            </div>
+          {{/each}}
+        </div>
+    </script>
+    <script id="email-template" type="text/template">
+        <strong>{{emailOptions.email}}</strong> <span class="badge {{#if emails.length}} badge-warning{{/if}}">{{emails.length}}</span>
+        <ul class="unstyled">
+            {{#each emails}}
+            <li>
+                De <em>{{#each from}}{{this}}{{/each}}</em><br />
+                <strong>{{#each subject}}{{this}}{{/each}}</strong>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+    <script id="calendar-template" type="text/template">
+        <ul>
+            {{#each events}}
+                <li>
+                    <strong>{{startStr}}</strong><p>{{summary}}</p>
+                </li>
+            {{/each}}
+        </ul>
+    </script>
+    <script id="tv-template" type="text/template">
+        <dl>
+            {{#each programmes}}
+                    <dt>{{@key}}</dt>
+                    {{#each this}}
+                    <dd><time>{{time start}}</time>:   <strong>{{title}}</strong></dd>
+                    {{/each}}
+            {{/each}}
+        </dl>
+    </script>
+    <div class="container">
+        <div id="weather" class="pull-right"></div>
+        <div id="clock">
+        </div>
+        <div class="row">
+            <div class="span4">
+                <h4><i class="icon-envelope"></i> Emails</h4>
+                <hr/>
+                <div class="email" id="email-1">
+                </div>
+                <div class="email" id="email-2">
+                </div>
+            </div>
+            <div class="span4">
+                <h4><i class="icon-calendar"></i> Calendrier</h4>
+                <hr/>
+                <div id="calendar-1"></div>
+                <div id="calendar-2"></div>
+            </div>
+            <div class="span4">
+                <h4><i class="icon-film"></i> &Agrave; la t&eacute;l&eacute; ce soir</h4>
+                <hr />
+                <div id="tv"></div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>
