@@ -52,4 +52,12 @@ body {
 .row {
     overflow:hidden;
 }
+.channel {
+    width: 30px;
+    height: 30px;
+}
+#tv {
+    max-height: 400px;
+    overflow:auto;
+}
 

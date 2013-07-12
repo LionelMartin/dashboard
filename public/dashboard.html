@@ -58,14 +58,16 @@
         </ul>
     </script>
     <script id="tv-template" type="text/template">
-        <dl>
             {{#each programmes}}
-                    <dt>{{@key}}</dt>
-                    {{#each this}}
-                    <dd><time>{{time start}}</time>:   <strong>{{title}}</strong></dd>
-                    {{/each}}
+                    <div class="media">
+                        <a class="pull-left"><img class="channel" src="images/channels/{{@key}}.png"></a>
+                        <div class="media-body">
+                          {{#each this}}
+                          <p>{{title}}</p>
+                          {{/each}}
+                        </div>
+                    </div>
             {{/each}}
-        </dl>
     </script>
     <div class="container">
         <div id="weather" class="pull-right"></div>
