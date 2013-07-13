@@ -47,7 +47,7 @@ body {
 }
 #clock h1 {
     font-weight:normal;
-    font-size: 70px;
+    font-size: 80px;
 }
 .row {
     overflow:hidden;
@@ -57,7 +57,7 @@ body {
     height: 30px;
 }
 #tv {
-    max-height: 400px;
+    max-height: 300px;
     overflow:auto;
 }
 

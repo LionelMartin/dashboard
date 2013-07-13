@@ -37,7 +37,7 @@ var Clock = UpdatedModel.extend({
         var time = new Date();
         this.set({
             "timeStr": this.getTime(time),
-            "dateStr": moment(time).format("LL")
+            "dateStr": moment(time).format("dddd LL")
         });
     },
     getTime: function(date) {
