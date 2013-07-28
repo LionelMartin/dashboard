@@ -25,7 +25,8 @@
     <script id="weather-template" type="text/template">
         <img class="current-icon" src="{{condition.icon_url}}">
         <h3>{{condition.weather}}   {{condition.temp_c}}&deg;C</h4>
-        <div class="forecast">
+    </script>
+    <script id="forecast-template" type="template">
           {{#each forecast.forecastday}}
             <div class="forecast-day">
               <div class="date">{{date.weekday_short}}</div>
@@ -35,7 +36,6 @@
               </div>
             </div>
           {{/each}}
-        </div>
     </script>
     <script id="email-template" type="text/template">
         <strong>{{emailOptions.email}}</strong> <span class="badge {{#if emails.length}} badge-warning{{/if}}">{{emails.length}}</span>
@@ -50,13 +50,23 @@
     </script>
     <script id="calendar-template" type="text/template">
         <ul>
-            {{#each events}}
+            {{#each calendar.events}}
                 <li>
-                    <strong>{{startStr}}</strong><p>{{summary}}</p>
+                    <strong>{{calendar start}}</strong><p>{{summary}}</p>
                 </li>
             {{/each}}
         </ul>
     </script>
+    <script id="task-template" type="text/template">
+        <ul>
+            {{#each calendar.tasks}}
+                <li>
+                    <p>{{summary}}</p>
+                </li>
+            {{/each}}
+        </ul>
+    </script>
+
     <script id="tv-template" type="text/template">
             {{#each programmes}}
                     <div class="media">
@@ -69,8 +79,18 @@
                     </div>
             {{/each}}
     </script>
+    <script id="rss-template" type="text/template">
+      <ul>
+      {{#each rss}}
+          <li>{{title}}</li>
+      {{/each}}
+      </ul>
+    </script>
     <div class="container">
-        <div id="weather" class="pull-right"></div>
+        <div id="weather" class="pull-right">
+            <div id="condition"></div>
+            <div id="forecast"></div>
+        </div>
         <div id="clock">
         </div>
         <div class="row">
@@ -87,12 +107,19 @@
                 <hr/>
                 <div id="calendar-1"></div>
                 <div id="calendar-2"></div>
+                <h4><i class="icon-check"></i> T&acirc;ches</h4>
+                <hr/>
+                <div id="task"></div>
             </div>
             <div class="span4">
                 <h4><i class="icon-film"></i> &Agrave; la t&eacute;l&eacute; ce soir</h4>
                 <hr />
                 <div id="tv"></div>
             </div>
+            <div class="span4">
+                <h4><i class="icon-info-sign"></i> Infos</h4>
+                <hr />
+                <div id="infos"></div>
         </div>
     </div>
     </body>

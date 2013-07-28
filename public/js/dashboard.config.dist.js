@@ -20,7 +20,8 @@ $(function() {
     var language = "fr";
     moment.lang(language);
     new ClockView({model: new Clock(), el:$('#clock'), template: $("#clock-template")});
-    new WeatherView({model: new Weather(), el: $('#weather'), template: $("#weather-template")})
+    new ForecastView({model: new Forecast(), el: $('#forecast'), template: $("#forecast-template")});
+    new ConditionView({model: new Condition(), el: $('#condition'), template: $("#condition-template")});
     new EmailView({model:new Email({emailOptions: emailConfig1}), el: $("#email-1"), template: $("#email-template")});
     new EmailView({model:new Email({emailOptions :emailConfig2}), el: $("#email-2"), template: $("#email-template")});
     new CalendarView({

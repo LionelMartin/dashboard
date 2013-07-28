@@ -62,9 +62,6 @@ var DefaultView = Backbone.View.extend({
 })
 var ClockView = DefaultView.extend({});
 var Weather = UpdatedModel.extend({
-    position: null,
-    currentConditionsResponse: null,
-    forecastResponse: null,
     updateInterval: 30 * 60 * 1000,
     language: "FR",
     apikey: 'c0e8d71b8b531341',
@@ -73,43 +70,6 @@ var Weather = UpdatedModel.extend({
             latitude: 43.598193,
             longitude: 3.900333
         }
-    },
-    getCacheKey: function() {
-        return "weather";
-    },
-    update: function() {
-        conditionsUrl = 'https://api.wunderground.com/api/' +
-              this.apikey + '/conditions/' +
-              'lang:' + this.language + '/q/' +
-              this.position.coords.latitude + ',' +
-              this.position.coords.longitude + '.json?callback=?';
-
-        $.getJSON(conditionsUrl, this.onConditionsChanged.bind(this));
-        forecastUrl = 'https://api.wunderground.com/api/' +
-              this.apikey + '/forecast/' +
-              'lang:' + this.language + '/q/' +
-              this.position.coords.latitude + ',' +
-              this.position.coords.longitude + '.json?callback=?';
-        $.getJSON(forecastUrl, this.onForecastChanged.bind(this));
-    },
-    onForecastChanged: function(data) {
-        this.set("forecast", data.forecast.simpleforecast);
-        var cache;
-        if (!(cache = this.getCache())) {
-            cache = {};
-        }
-
-        cache.forecast = data.forecast.simpleforecast;
-        this.saveCache(cache);
-    },
-    onConditionsChanged: function(data) {
-        this.set("condition", data.current_observation);
-        var cache;
-        if (!(cache = this.getCache())) {
-            cache = {};
-        }
-        cache.condition = data.current_observation;
-        this.saveCache(cache);
     },
     updatePosition: function() {
         // Get the current location.
@@ -123,6 +83,43 @@ var Weather = UpdatedModel.extend({
     },
     getCurrentPositionError: function(error) {
         console.log('PositionError', error);
+    }
+});
+
+var Conditions = Weather.extend({
+    getCacheKey: function() {
+      return "condition";
+    },
+    update: function() {
+        conditionsUrl = 'https://api.wunderground.com/api/' +
+              this.apikey + '/conditions/' +
+              'lang:' + this.language + '/q/' +
+              this.position.coords.latitude + ',' +
+              this.position.coords.longitude + '.json?callback=?';
+
+        $.getJSON(conditionsUrl, this.onConditionsChanged.bind(this));
+    },
+    onConditionsChanged: function(data) {
+        this.set("condition", data.current_observation);
+        this.saveCache(data.current_observation);
+    },
+});
+var Forecast = Weather.extend({
+    updateInterval: 4 * 60 * 60 * 1000,
+    getCacheKey: function() {
+      return "forecast";
+    },
+    update: function() {
+        forecastUrl = 'https://api.wunderground.com/api/' +
+              this.apikey + '/forecast/' +
+              'lang:' + this.language + '/q/' +
+              this.position.coords.latitude + ',' +
+              this.position.coords.longitude + '.json?callback=?';
+        $.getJSON(forecastUrl, this.onForecastChanged.bind(this));
+    },
+    onForecastChanged: function(data) {
+        this.set("forecast", data.forecast.simpleforecast);
+        this.saveCache(data.forecast.simpleforecast);
     }
 });
 var Email = UpdatedModel.extend({
@@ -154,13 +151,8 @@ var Calendar = UpdatedModel.extend({
         return "calendar-"+this.get("cal");
     },
     onCalendarResponse: function(data) {
-        var d;
-        for (var i=0, max = data.length; i<max; i++) {
-            d = new Date(Date.parse(data[i].start));
-            data[i].startStr = moment(d).calendar();
-        }
-        this.set("events", data);
-        this.saveCache({events:data});
+        this.set("calendar", data);
+        this.saveCache({calendar:data});
     }
 })
 var Tv = UpdatedModel.extend({
@@ -178,13 +170,35 @@ var Tv = UpdatedModel.extend({
     getCacheKey: function() {
       return 'tv';
     }
-})
-
-var WeatherView = DefaultView.extend({});
+});
+var Rss = UpdatedModel.extend({
+    updateInterval: 15*60*1000,
+    update: function() {
+        $.getJSON(
+            "http://pipes.yahoo.com/pipes/pipe.run?_id=1693719b8b19f2ae290929fe9154561c&_render=json&numberinput1="+this.get("num")+"&urlinput1="+this.get("url"),
+            this.onRssResponse.bind(this)
+        );
+    },
+    onRssResponse : function(data) {
+        data = data.value.items;
+        this.set("rss", data);
+        this.saveCache({rss: data});
+    },
+    getCacheKey: function() {
+        return "rss-" + this.get("url");
+    }
+});
+var ConditionView = DefaultView.extend({});
+var ForecastView = DefaultView.extend({});
 var EmailView = DefaultView.extend({});
 var CalendarView = DefaultView.extend({});
 var TvView = DefaultView.extend({});
+var RssView = DefaultView.extend({});
+var TaskView = DefaultView.extend({});
 
 Handlebars.registerHelper("time", function(date) {
     return moment(Date.parse(date)).format("H:mm");
+});
+Handlebars.registerHelper("calendar", function(date) {
+    return moment(Date.parse(date)).calendar();
 });
